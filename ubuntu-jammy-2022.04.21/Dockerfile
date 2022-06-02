@@ -10,20 +10,21 @@ RUN apt-get -qq update
 RUN apt-get -y install \
         sudo \
         vim \
-        scons \
-        python3.10 \
         wget \
+        python3.10 \
         python3-pip \
         stlink-tools=1.7.0+ds-1 \
         openocd=0.11.0-1
 
-COPY requirements.txt /
-
-RUN pip3 install -r /requirements.txt
-
 RUN useradd -u 1000 -U -G sudo -m builduser
 
 RUN echo "%sudo   ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/sudoers
+
+USER builduser
+
+COPY requirements.txt /tmp/requirements.txt
+
+RUN pip3 install -r /tmp/requirements.txt
 
 # define default dir when entering shell to be dir of project 
 WORKDIR /firmware
