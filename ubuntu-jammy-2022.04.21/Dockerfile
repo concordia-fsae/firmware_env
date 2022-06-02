@@ -35,18 +35,21 @@ RUN tar -xf $COMPILER_TAR -C $COMPILER_DIR --strip-components 1
 # delete the tar to save space in the image
 RUN rm $COMPILER_TAR
 
-# switch to non-root user
-USER builduser
-
-# update path to include user bin
-RUN export PATH=$PATH:/home/builduser/.local/bin
-
 # install python dependencies
 COPY requirements.txt /tmp/requirements.txt
 RUN pip3 install -r /tmp/requirements.txt
 
+COPY entrypoint.sh /opt/entrypoint.sh
+RUN chown builduser:builduser /opt/entrypoint.sh
+RUN chmod u+x /opt/entrypoint.sh
+
+# switch to non-root user
+USER builduser
+
 # define default dir when entering shell to be dir of project 
 WORKDIR /firmware
+
+ENTRYPOINT /opt/entrypoint.sh
 
 # keep container running for debugging
 #ENTRYPOINT ["tail", "-f", "/dev/null"]
