@@ -20,7 +20,8 @@ RUN apt-get -y install \
         python3-pip \
         stlink-tools=1.7.0+ds-1 \
         openocd=0.11.0-1 \
-        doxygen
+        doxygen \
+        graphviz
 
 # allow sudo group to use sudo command without password
 RUN echo "%sudo   ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/sudoers
