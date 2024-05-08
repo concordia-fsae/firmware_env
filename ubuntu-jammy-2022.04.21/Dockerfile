@@ -19,7 +19,6 @@ RUN apt-get -y install \
         python3.10 \
         python3-pip \
         stlink-tools=1.7.0+ds-1 \
-        openocd=0.11.0-1 \
         doxygen \
         graphviz
 
@@ -36,6 +35,16 @@ RUN wget $COMPILER -O $COMPILER_TAR
 RUN tar -xf $COMPILER_TAR -C $COMPILER_DIR --strip-components 1
 # delete the tar to save space in the image
 RUN rm $COMPILER_TAR
+
+# download openocd=0.12.0
+ARG OPENOCD="https://downloads.sourceforge.net/project/openocd-xpack/v0.12.0-2/xpack-openocd-0.12.0-2-linux-x64.tar.gz?ts=gAAAAABlfonv9CQwshyfx26jJ0MYL_Wqvj9lTx8E5miEOuIL_9Rb7L7MiRCDrRaGPwWtMNA7JcHOg4mfEpoQ1Q4U9u8v7_m9jg%3D%3D&r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fopenocd-xpack%2Ffiles%2Fv0.12.0-2%2Fxpack-openocd-0.12.0-2-linux-x64.tar.gz%2Fdownload"
+ARG OPENOCD_TAR=/opt/openocd/openocd-0.12.0.tar.xz
+ARG OPENOCD_DIR=/opt/openocd/
+
+RUN mkdir $OPENOCD_DIR
+RUN wget $OPENOCD -O $OPENOCD_TAR 
+RUN tar -xf $OPENOCD_TAR -C $OPENOCD_DIR --strip-components 1
+RUN rm $OPENOCD_TAR
 
 # install python dependencies
 COPY requirements.txt /tmp/requirements.txt
