@@ -92,6 +92,7 @@ RUN apt-get update -qq && apt-get install -y \
         openocd=0.12.0-1build2 \
         doxygen \
         graphviz \
+        git \
         && rm -rf /var/lib/apt/lists/*
 
 # noble already has a user/group called "ubuntu" at 1000, so just rename them
