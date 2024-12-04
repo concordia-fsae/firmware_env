@@ -7,6 +7,7 @@ LABEL org.opencontainers.image.source https://github.com/concordia-fsae/containe
 
 # create build user
 RUN useradd -u 1000 -U -G sudo -m builduser
+RUN usermod -a -G dialout builduser
 
 # update packages
 RUN apt-get -qq update
